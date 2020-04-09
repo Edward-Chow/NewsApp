@@ -102,12 +102,15 @@ module.exports = () => {
           }
           newArticle.id = article.web_url;
           newArticle.url = article.web_url;
-          newArticle.section = article.news_desk;
+          if (article.news_desk !== undefined) {
+            newArticle.section = article.news_desk;
+          } else {
+            continue;
+          }
           newArticle.date = article.pub_date.substring(0, 10);
           newArticle.description = article.abstract;
           toJsonArr.push(newArticle);
-          if (toJsonArr.length === 10)
-            break;
+          if (toJsonArr.length === 10) break;
         }
         res.json(toJsonArr);
       })

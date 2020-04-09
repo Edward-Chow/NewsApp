@@ -20,7 +20,11 @@ function filterData(articles, search) {
     newArticle.url = article.webUrl;
     newArticle.section = article.sectionId;
     newArticle.date = article.webPublicationDate.substring(0, 10);
-    newArticle.description = article.blocks.body[0].bodyTextSummary;
+    try {
+      newArticle.description = article.blocks.body[0].bodyTextSummary;
+    } catch (err) {
+      newArticle.description = '';
+    }
     toJsonArr.push(newArticle);
     if (search && toJsonArr.length === 10) break;
   }
@@ -73,7 +77,11 @@ module.exports = () => {
         articleDetails.section = articleContent.sectionId;
         articleDetails.url = articleContent.webUrl;
         articleDetails.date = articleContent.webPublicationDate.substring(0, 10);
-        articleDetails.description = articleContent.blocks.body[0].bodyTextSummary;
+        try {
+          articleDetails.description = articleContent.blocks.body[0].bodyTextSummary;
+        } catch (err) {
+          articleDetails.description = '';
+        }
         res.json(articleDetails);
       })
       .catch(err => {
